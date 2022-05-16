@@ -8,10 +8,7 @@ const InfoCard = ({ img, title, bgClass }) => {
       </figure>
       <div class="card-body">
         <h2 class="card-title">{title}</h2>
-        <p>Click the button to watch on Jetflix app.</p>
-        <div class="card-actions justify-end">
-          <button class="btn btn-primary">Watch</button>
-        </div>
+        <p className="text-left">Click the button to watch on Jetflix app.</p>
       </div>
     </div>
   )
