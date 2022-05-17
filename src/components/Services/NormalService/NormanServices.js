@@ -3,7 +3,7 @@ import React from 'react'
 export const NormanServices = ({ img, title }) => {
   return (
     <>
-      <div className="card w-96 bg-base-100 shadow-xl ">
+      <div className="card lg:max-w-lg bg-base-100 shadow-xl ">
         <figure>
           <img src={img} alt="Shoes" />
         </figure>

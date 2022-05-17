@@ -15,7 +15,7 @@ const Testimonial = () => {
         <img className="w-32 h-26" src={quotation} />
       </div>
       <div className="mx-auto">
-        <div className="grid grid-row-1 md:grid-row-1 lg:grid-cols-3 gap-4">
+        <div className="grid grid-row-1 md:grid-row-1 lg:grid-cols-3 gap-4 px-12">
           <Card img={people1}></Card>
           <Card img={people2}></Card>
           <Card img={people3}></Card>
