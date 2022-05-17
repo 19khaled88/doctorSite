@@ -1,19 +1,20 @@
-import React from 'react'
-import chair from '../../../assets/chair.png'
-const Banner = () => {
+import { format } from 'date-fns';
+import React, { useState } from 'react';
+import { DayPicker } from 'react-day-picker';
+import 'react-day-picker/dist/style.css';
+import chair from '../../../assets/chair.png';
+const Banner = ({text,date}) => {
+  const [selected, setSelected] = useState(new Date())
+  console.log(selected)
+  let footer = <p>Please pick a day</p>
+  if(selected){
+    footer = <p>You have picked {format(selected, 'PP')} </p>
+  }
   return (
     <div class="hero min-h-screen px-12">
       <div class="hero-content flex-col lg:flex-row-reverse">
         <img src={chair} class="max-w-sm rounded-lg shadow-2xl" />
-        <div className="text-left">
-          <h1 class="text-5xl font-bold">Box Office News!</h1>
-          <p class="py-6">
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-            excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
-            a id nisi.
-          </p>
-          <button class="btn btn-primary">Get Started</button>
-        </div>
+        {text ? text : <DayPicker mode="single" selected={selected} onSelect={setSelected} footer={footer}/>}
       </div>
     </div>
   )

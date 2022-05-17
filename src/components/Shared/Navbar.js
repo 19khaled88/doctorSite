@@ -31,7 +31,7 @@ const navbarItem = (
       <Link to="/about">About</Link>
     </li>
     <li>
-      <Link to="/Appointment">AppointMent</Link>
+      <Link to="/Appointment">Appointment</Link>
     </li>
     <li>
       <Link to="/reviews">Reviews</Link>
