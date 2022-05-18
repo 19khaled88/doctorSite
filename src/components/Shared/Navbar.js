@@ -40,7 +40,7 @@ const navbarItem = (
       <Link to="/contact-us">ContactUs</Link>
     </li>
     <li>
-      <Link to="/login">Login</Link>
+      <Link to="/register">Register</Link>
     </li>
   </>
 )

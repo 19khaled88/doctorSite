@@ -49,17 +49,17 @@ const BookingModal = ({ booking, date }) => {
               </select>
               <input
                 type="text"
-                placeholder="Type here"
+                placeholder="Full Name"
                 class="input input-bordered w-full max-w-xs"
               />
               <input
                 type="text"
-                placeholder="Type here"
+                placeholder="Phone"
                 class="input input-bordered w-full max-w-xs"
               />
               <input
                 type="text"
-                placeholder="Type here"
+                placeholder="Email"
                 class="input input-bordered w-full max-w-xs"
               />
               <button class="btn btn-success w-full max-w-xs">Submit</button>
