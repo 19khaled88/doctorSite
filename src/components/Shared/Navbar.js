@@ -1,59 +1,87 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-const navbarItem = (
-  <>
+import { signOut } from '@firebase/auth';
+import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import auth from '../../components/Auth/firebase.init';
+const Navbar = () => {
+  const [ user ] = useAuthState(auth);
+  const navigate = useNavigate()
+  const navbarItem = (
+    <>
+      <li>  
+        <Link to="/">Home</Link>
+      </li>
+      <li tabindex="0">
+        <a className="justify-between">
+          Parent
+          <svg
+            className="fill-current"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+          </svg>
+        </a>
+        <ul className="p-2">
+          <li>
+            <a>Submenu 1</a>
+          </li>
+          <li>
+            <a>Submenu 2</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <Link to="/about">About</Link>
+      </li>
+      <li>
+        <Link to="/Appointment">Appointment</Link>
+      </li>
+      <li>
+        <Link to="/reviews">Reviews</Link>
+      </li>
+      <li>
+        <Link to="/contact-us">ContactUs</Link>
+      </li>
+      <li>
+        <Link to="/slot">Slot Create</Link>
+      </li>
+      <ToastContainer />
+      
+    </>
+  )
+  const hasUser =(
+    <>
     <li>
-      <Link to="/">Home</Link>
+      <button onClick={()=>logoutHandler()}>Logout</button>
     </li>
-    <li tabindex="0">
-      <a class="justify-between">
-        Parent
-        <svg
-          class="fill-current"
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-        >
-          <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
-        </svg>
-      </a>
-      <ul class="p-2">
-        <li>
-          <a>Submenu 1</a>
-        </li>
-        <li>
-          <a>Submenu 2</a>
-        </li>
-      </ul>
-    </li>
-    <li>
-      <Link to="/about">About</Link>
-    </li>
-    <li>
-      <Link to="/Appointment">Appointment</Link>
-    </li>
-    <li>
-      <Link to="/reviews">Reviews</Link>
-    </li>
-    <li>
-      <Link to="/contact-us">ContactUs</Link>
-    </li>
+    </>
+  )
+  const hasNotUser =(
+    <>
     <li>
       <Link to="/register">Register</Link>
     </li>
-  </>
-)
+    </>
+  )
+  const logoutHandler=()=>{
+        signOut(auth).then(()=>{
+        navigate('/register')
+    }).catch((error)=>{
 
-const Navbar = () => {
+    });
+  }
   return (
-    <div class="navbar bg-base-100">
-      <div class="navbar-start">
-        <div class="dropdown">
-          <label tabindex="0" class="btn btn-ghost lg:hidden">
+    <div className="navbar bg-base-100">
+      <div className="navbar-start">
+        <div className="dropdown">
+          <label tabindex="0" className="btn btn-ghost lg:hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
+              className="h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -68,15 +96,15 @@ const Navbar = () => {
           </label>
           <ul
             tabindex="0"
-            class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+            className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
           >
-            {navbarItem}
+            {navbarItem} {user ? hasUser : hasNotUser}
           </ul>
         </div>
-        <a class="btn btn-ghost normal-case text-xl">Doctors Portal</a>
+        <a className="btn btn-ghost normal-case text-xl">Doctors Portal</a>
       </div>
-      <div class="navbar-center hidden lg:flex">
-        <ul class="menu menu-horizontal p-0">{navbarItem}</ul>
+      <div className="navbar-center hidden lg:flex">
+        <ul className="menu menu-horizontal p-0">{navbarItem} {user ? hasUser : hasNotUser}</ul>
       </div>
     </div>
   )
