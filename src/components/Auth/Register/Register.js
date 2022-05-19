@@ -1,18 +1,13 @@
-import React, { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import Google from './Google'
-import Signup from './Signup'
-import Login from './Login'
+import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Google from './Google';
+import Login from './Login';
+import Signup from './Signup';
 const Register = () => {
-  const [state, setState] = useState('')
-
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm()
-
-  const onSubmit = (data) => console.log(data)
+  const [state, setState] = useState('login')
+  let navigate  = useNavigate()
+  let location = useLocation()
+  
   const loginPageRedirect = (login) => {
     setState(login)
   }
@@ -22,8 +17,8 @@ const Register = () => {
   return (
     <>
       <div className="flex justify-center items-center min-h-screen pt-[-50]">
-        <div class="card bg-base-100 shadow-xl">
-          <div class="card-body flex flex-col justify-center items-center">
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body flex flex-col justify-center items-center">
             {state === 'login' ? (
               <Login signupPageRedirect={signupPageRedirect}></Login>
             ) : (

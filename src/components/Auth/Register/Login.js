@@ -1,25 +1,88 @@
-import React from 'react'
-import { useForm } from 'react-hook-form'
+import { sendPasswordResetEmail } from "firebase/auth";
+import React, { useRef, useState } from 'react';
+import { useAuthState, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useForm } from 'react-hook-form';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
+import Loading from "../../Shared/Loading";
+import auth from '../firebase.init';
+
 const Login = ({ signupPageRedirect }) => {
+  const [loginError, setLoginError] = useState('')
+  const [loginUser] = useAuthState(auth);
+  const navigate = useNavigate()
+  const location = useLocation()
+  const emailRef = useRef('')
+  let from = location.state?.from?.pathname || '/'
+  const [
+    signInWithEmailAndPassword,
+    user,
+    loading,
+    error,
+  ] = useSignInWithEmailAndPassword(auth);
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm()
 
-  const onSubmit = (data) => console.log(data)
+  if (error) {
+    setLoginError(error.message)
+    // return (
+    //   <div>
+    //     <p>Error: {error.message}</p>
+    //   </div>
+    // );
+  }
+  if (loading) {
+   return <Loading />
+    // return <p>Loading...</p>;
+    
+  }
+  if (user) {
+    // navigate('/')
+    navigate(from, {replace: true});
+    // return (
+    //   <div>
+    //     <p>Signed In User:</p>
+    //     <p>{loginUser.email}</p>
+    //   </div>
+    // );
+  }
+
+  const onSubmit = (data) =>
+  {
+    const email = data.email;
+    const password = data.password;
+    signInWithEmailAndPassword(email, password)
+    
+  }
+
+  const forgetPasswordHandler=(e)=>{
+    e.preventDefault();
+    const email = emailRef.current.value
+    sendPasswordResetEmail(auth, email)
+      .then(()=>{
+        toast('Password reset email sent!')
+        e.target.reset()
+      })
+      .catch(()=>{
+        toast(error.message)
+      })
+
+  }
   return (
     <>
-      <h4 class="cart-title">Login page</h4>
+      <h4 className="cart-title">Login page</h4>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div class="form-control w-full max-w-xs">
-          <label class="label">
-            <span class="label-text">Email</span>
+        <div className="form-control w-full max-w-xs">
+          <label className="label">
+            <span className="label-text">Email</span>
           </label>
           <input
             type="email"
             placeholder="Your Email"
-            class="input input-bordered input-sm w-full max-w-xs"
+            className="input input-bordered input-sm w-full max-w-xs"
             {...register('email', {
               required: {
                 value: true,
@@ -31,7 +94,7 @@ const Login = ({ signupPageRedirect }) => {
               },
             })}
           />
-          <label class="label">
+          <label className="label">
             {errors.email?.type === 'required' && (
               <span className="label-text-alt text-red-400">
                 {errors.email.message}
@@ -45,20 +108,20 @@ const Login = ({ signupPageRedirect }) => {
           </label>
         </div>
 
-        <div class="form-control w-full max-w-xs">
-          <label class="label">
-            <span class="label-text">Password</span>
+        <div className="form-control w-full max-w-xs">
+          <label className="label">
+            <span className="label-text">Password</span>
           </label>
           <input
             type="password"
             placeholder="Your Password"
-            class="input input-bordered input-sm w-full max-w-xs"
+            className="input input-bordered input-sm w-full max-w-xs"
             {...register('password', {
               required: { value: true, message: 'Password is required' },
               minLength: { value: 6, message: 'Minimun length is 6' },
             })}
           />
-          <label class="label">
+          <label className="label">
             {errors.password?.type === 'required' && (
               <span className="label-text-alt text-red-400">
                 {errors.password.message}
@@ -71,19 +134,41 @@ const Login = ({ signupPageRedirect }) => {
             )}
           </label>
         </div>
-
-        <button class="btn btn-wide btn-xs" value="login" type="submit">
+        <div className="flex flex-col">
+        <span className="text-red-400"> {loginError ?'Error:'+ loginError : ''}</span>
+        <button className="btn btn-wide btn-xs" value="login" type="submit">
           Login
         </button>
+        </div>
       </form>
       <div className="flex flex-row">
-        <button className="text-sm">Forgot Password?</button>
+        <label htmlFor="forgetPassword" className="text-sm flex justify-center items-center">Forgot Password?</label>
         <button
           className="btn btn-link text-sm"
           onClick={() => signupPageRedirect('signup')}
         >
           Don't Have Account?
         </button>
+      </div>
+
+      <input type="checkbox" id="forgetPassword" className="modal-toggle" />
+      <div className="modal">
+        <div className="modal-box relative">
+          <label htmlFor="forgetPassword" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+          <h3 className="text-lg font-bold">Reset Password!</h3>
+          <form onSubmit={forgetPasswordHandler}>
+          <div className="w-max mx-auto">
+            <label className="label">
+              <span className="label-text">Email</span>
+            </label>
+            <label className="input-group w-auto">
+              <span>Email</span>
+              <input type="text" ref={emailRef} placeholder="Your email address" className="input input-bordered" />
+            </label>
+          </div>
+          <button className="btn btn-wide w-64 mx-auto btn-sm mt-6" value="submit" type="submit">Submit</button>
+          </form>
+        </div>
       </div>
     </>
   )
