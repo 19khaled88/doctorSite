@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Banner from '../Home/Banner/Banner'
 import AvailableAppointment from './AvailableAppointment/AvailableAppointment'
 import AvailableSlot from './AvailableSlot/AvailableSlot'
@@ -15,15 +15,22 @@ const services = {
 const Appointment = () => {
   const [selected, setSelected] = useState(new Date())
   const [booking, setBooking] = useState([])
+  const [service, setService] = useState([])
 
+  useEffect(() => {
+    fetch('http://localhost:5000/services')
+      .then((res) => res.json())
+      .then((data) => setService(data))
+  }, [])
   return (
     <>
       <Banner setSelected={setSelected} selected={selected}></Banner>
       <AvailableAppointment
         services={services}
+        service={service}
         date={selected}
       ></AvailableAppointment>
-      <AvailableSlot setBooking={setBooking}></AvailableSlot>
+      <AvailableSlot setBooking={setBooking} service={service}></AvailableSlot>
       {booking && (
         <BookingModal date={selected} booking={booking}></BookingModal>
       )}

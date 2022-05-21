@@ -1,28 +1,43 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth'
+import Loading from '../../Shared/Loading.js'
 import auth from '../firebase.init.js'
 const Google = () => {
+  const [googleError, setGoogleError] = useState('')
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth)
 
-  if (error) {
-    return (
-      <div>
-        <p>{error.message}</p>
-      </div>
-    )
-  }
+  // if (error) {
+  //   return setGoogleError(error.message)
+  //   // return (
+  //   //   <div>
+  //   //     <p>{error.message}</p>
+  //   //   </div>
+  //   // )
+  // }
+
+  useEffect(() => {
+    setGoogleError('Error in login with google')
+    const timer = setTimeout(() => {
+      setGoogleError('')
+    }, 3000)
+    return () => clearTimeout(timer)
+  }, [error])
   if (loading) {
-    return <p>Loading...</p>
+    return <Loading />
   }
   if (user) {
     console.log(user)
   }
   return (
     <>
-      <div class="divider">OR</div>
-      <button class="btn btn-wide btn-xs" onClick={() => signInWithGoogle()}>
+      <div class="divider mt-0 mb-0">OR</div>
+      <button
+        class="btn btn-wide btn-outline btn-xs"
+        onClick={() => signInWithGoogle()}
+      >
         Login with google
       </button>
+      <span className="text-red-600">{googleError ? googleError : ''}</span>
     </>
   )
 }

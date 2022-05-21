@@ -1,15 +1,15 @@
-import { signOut } from '@firebase/auth';
-import React from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { Link, useNavigate } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import auth from '../../components/Auth/firebase.init';
+import { signOut } from '@firebase/auth'
+import React from 'react'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { Link, useNavigate } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import auth from '../../components/Auth/firebase.init'
 const Navbar = () => {
-  const [ user ] = useAuthState(auth);
+  const [user] = useAuthState(auth)
   const navigate = useNavigate()
   const navbarItem = (
     <>
-      <li>  
+      <li>
         <Link to="/">Home</Link>
       </li>
       <li tabindex="0">
@@ -47,32 +47,34 @@ const Navbar = () => {
         <Link to="/contact-us">ContactUs</Link>
       </li>
       <li>
-        <Link to="/slot">Slot Create</Link>
+        <Link to="/services">Create Services</Link>
+      </li>
+      <li>
+        <Link to="/slot">Create Slot</Link>
       </li>
       <ToastContainer />
-      
     </>
   )
-  const hasUser =(
+  const hasUser = (
     <>
-    <li>
-      <button onClick={()=>logoutHandler()}>Logout</button>
-    </li>
+      <li>
+        <button onClick={() => logoutHandler()}>Logout</button>
+      </li>
     </>
   )
-  const hasNotUser =(
+  const hasNotUser = (
     <>
-    <li>
-      <Link to="/register">Register</Link>
-    </li>
+      <li>
+        <Link to="/register">Register</Link>
+      </li>
     </>
   )
-  const logoutHandler=()=>{
-        signOut(auth).then(()=>{
+  const logoutHandler = () => {
+    signOut(auth)
+      .then(() => {
         navigate('/register')
-    }).catch((error)=>{
-
-    });
+      })
+      .catch((error) => {})
   }
   return (
     <div className="navbar bg-base-100">
@@ -104,7 +106,9 @@ const Navbar = () => {
         <a className="btn btn-ghost normal-case text-xl">Doctors Portal</a>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal p-0">{navbarItem} {user ? hasUser : hasNotUser}</ul>
+        <ul className="menu menu-horizontal p-0">
+          {navbarItem} {user ? hasUser : hasNotUser}
+        </ul>
       </div>
     </div>
   )
