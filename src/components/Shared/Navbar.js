@@ -12,6 +12,12 @@ const Navbar = () => {
       <li>
         <Link to="/">Home</Link>
       </li>
+      <li>
+        <Link to="/Appointment">Appointment</Link>
+      </li>
+      <li>
+        <Link to="/services">Create Services</Link>
+      </li>
       <li tabindex="0">
         <a className="justify-between">
           Parent
@@ -34,11 +40,9 @@ const Navbar = () => {
           </li>
         </ul>
       </li>
+
       <li>
-        <Link to="/about">About</Link>
-      </li>
-      <li>
-        <Link to="/Appointment">Appointment</Link>
+        <Link to="/dashboard">Dashboard</Link>
       </li>
       <li>
         <Link to="/reviews">Reviews</Link>
@@ -46,9 +50,7 @@ const Navbar = () => {
       <li>
         <Link to="/contact-us">ContactUs</Link>
       </li>
-      <li>
-        <Link to="/services">Create Services</Link>
-      </li>
+
       <li>
         <Link to="/slot">Create Slot</Link>
       </li>

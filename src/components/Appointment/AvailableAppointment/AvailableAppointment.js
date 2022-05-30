@@ -10,9 +10,8 @@ const AvailableAppointment = ({ services, date, service }) => {
     <div className="pb-16">
       <div className="pb-16">
         <p style={{ color: '#19D3AE' }}>
-          Available Appointment on {format(date, 'PP')}
+          Available care services on {format(date, 'PP')}
         </p>
-        <p style={{ color: 'gray' }}>Please select a service</p>
       </div>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 px-5 container mx-auto">
         {service.map((result, key) => (

@@ -7,8 +7,11 @@ import Register from './components/Auth/Register/Register'
 import RequiredAuth from './components/Auth/RequiredAuth/RequiredAuth'
 import BookingSlot from './components/BookingSlot/BookingSlot'
 import Contact from './components/Contact-us/Contact'
+import Dashboard from './components/Dashboard/Dashboard'
+import Myorders from './components/Dashboard/Myorders'
+import Profile from './components/Dashboard/Profile'
 import Home from './components/Home/Home'
-import Reviews from './components/Reviews//Reviews'
+import Reviews from './components/Reviews/Reviews'
 import CreateServices from './components/Services/MakeServices/CreateServices'
 import Navbar from './components/Shared/Navbar'
 
@@ -20,6 +23,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Home></Home>} />
           <Route path="/about" element={<About></About>} />
+          <Route path="/dashboard" element={<Dashboard></Dashboard>}>
+            <Route path="/dashboard" element={<Profile></Profile>} />
+            <Route path="/dashboard/orders" element={<Myorders></Myorders>} />
+          </Route>
           <Route
             path="/appointment"
             element={
